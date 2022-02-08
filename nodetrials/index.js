@@ -28,8 +28,13 @@ server.on('request', (req, res) => {
         res.end(
             "Welcome"
         );
-    } else if (items[1] === 'data') {
+    } else if (req.method === 'POST' && items[1] === 'data') {
 
+      req.on('data', (data)=>{
+         console.log(data.toString());
+         friends.push(JSON.parse(data.toString()));
+      });
+    }else if (req.method === 'GET' && items[1] === 'data') {
         res.statusCode = 200;
         res.setHeader = ('Content-Type', 'application/json');
         if (items.length === 3) {
@@ -40,7 +45,7 @@ server.on('request', (req, res) => {
             res.end(JSON.stringify(friends));
         }
     }
-    else if (items[1] === 'messages') {
+    else if (req.method === 'GET' && items[1] === 'messages') {
 
         res.setHeader = ('Content-Type', 'plain/text');
         res.write('<html>');
