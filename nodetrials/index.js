@@ -33,7 +33,11 @@ server.on('request', (req, res) => {
       req.on('data', (data)=>{
          console.log(data.toString());
          friends.push(JSON.parse(data.toString()));
+         
+
       });
+
+      req.pipe(res);
     }else if (req.method === 'GET' && items[1] === 'data') {
         res.statusCode = 200;
         res.setHeader = ('Content-Type', 'application/json');
